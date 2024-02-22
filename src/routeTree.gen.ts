@@ -11,11 +11,18 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as OnboardingImport } from './routes/_onboarding'
 import { Route as AppImport } from './routes/_app'
 import { Route as IndexImport } from './routes/index'
+import { Route as OnboardingGettingStartedImport } from './routes/_onboarding/getting-started'
 import { Route as AppWorkspaceIndexImport } from './routes/_app/$workspace/index'
 
 // Create/Update Routes
+
+const OnboardingRoute = OnboardingImport.update({
+  id: '/_onboarding',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const AppRoute = AppImport.update({
   id: '/_app',
@@ -25,6 +32,11 @@ const AppRoute = AppImport.update({
 const IndexRoute = IndexImport.update({
   path: '/',
   getParentRoute: () => rootRoute,
+} as any)
+
+const OnboardingGettingStartedRoute = OnboardingGettingStartedImport.update({
+  path: '/getting-started',
+  getParentRoute: () => OnboardingRoute,
 } as any)
 
 const AppWorkspaceIndexRoute = AppWorkspaceIndexImport.update({
@@ -44,6 +56,14 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppImport
       parentRoute: typeof rootRoute
     }
+    '/_onboarding': {
+      preLoaderRoute: typeof OnboardingImport
+      parentRoute: typeof rootRoute
+    }
+    '/_onboarding/getting-started': {
+      preLoaderRoute: typeof OnboardingGettingStartedImport
+      parentRoute: typeof OnboardingImport
+    }
     '/_app/$workspace/': {
       preLoaderRoute: typeof AppWorkspaceIndexImport
       parentRoute: typeof AppImport
@@ -56,6 +76,7 @@ declare module '@tanstack/react-router' {
 export const routeTree = rootRoute.addChildren([
   IndexRoute,
   AppRoute.addChildren([AppWorkspaceIndexRoute]),
+  OnboardingRoute.addChildren([OnboardingGettingStartedRoute]),
 ])
 
 /* prettier-ignore-end */
