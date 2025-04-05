@@ -1,5 +1,5 @@
 import { Center, Container, Heading } from "@chakra-ui/react";
-import { Field, Form, FormLayout, SubmitButton } from "@saas-ui/react";
+import { FormLayout, SubmitButton, useForm } from "@saas-ui/forms";
 import { useMutation } from "@tanstack/react-query";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { FormEvent } from "react";
@@ -37,35 +37,36 @@ function GettingStarted() {
     },
   });
 
+  const form = useForm<OnboardingData, object>({
+    defaultValues: {
+      organization: "",
+      workspace: "",
+    },
+  });
+
   return (
-    <Center height="$100vh">
-      <Container maxW="container.sm">
+    <Center height="100dvh">
+      <Container maxW="xl">
         <Heading as="h2" size="lg" mb="4">
           Getting started
         </Heading>
-        <Form
+        <form.Form
           onSubmit={(data) => submit.mutateAsync(data)}
-          defaultValues={{
-            organization: "",
-            workspace: "",
-          }}
         >
-          {({ setValue }) => (
-            <FormLayout>
-              <Field
-                label="Organization name"
-                name="organization"
-                onChange={(e: FormEvent<HTMLInputElement>) => {
-                  const value = e.currentTarget.value;
-                  setValue("organization", value);
-                  setValue("workspace", slugify(value));
-                }}
-              />
-              <Field label="Workspace" name="workspace" />
-              <SubmitButton>Continue</SubmitButton>
-            </FormLayout>
-          )}
-        </Form>
+          <FormLayout>
+            <form.Field
+              label="Organization name"
+              name="organization"
+              onChange={(e: FormEvent<HTMLInputElement>) => {
+                const value = e.currentTarget.value;
+                form.setValue("organization", value);
+                form.setValue("workspace", slugify(value));
+              }}
+            />
+            <form.Field label="Workspace" name="workspace" />
+            <SubmitButton>Continue</SubmitButton>
+          </FormLayout>
+        </form.Form>
       </Container>
     </Center>
   );

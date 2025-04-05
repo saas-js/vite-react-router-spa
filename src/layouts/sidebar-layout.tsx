@@ -1,11 +1,13 @@
-import { AppShell } from "@saas-ui/react";
+import { AppShell, Sidebar } from "@saas-ui/react";
 
 import { AppSidebar } from "#components/sidebar";
 
 export const SidebarLayout: React.FC<React.PropsWithChildren> = (props) => {
   return (
-    <AppShell height="$100vh" sidebar={<AppSidebar />}>
-      {props.children}
-    </AppShell>
+    <Sidebar.Provider>
+      <AppShell height="100dvh" sidebar={<AppSidebar />}>
+        {props.children}
+      </AppShell>
+    </Sidebar.Provider>
   );
 };

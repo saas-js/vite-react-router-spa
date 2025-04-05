@@ -1,5 +1,5 @@
 import { forwardRef } from "react";
-import { LinkProps, SaasProvider } from "@saas-ui/react";
+import { defaultSystem, LinkProps, SuiProvider } from "@saas-ui/react";
 import { RouterProvider, createRouter, Link } from "@tanstack/react-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
@@ -37,9 +37,9 @@ const LinkComponent = forwardRef<HTMLAnchorElement, Pick<LinkProps, "href">>(
 export const Provider = () => {
   return (
     <QueryClientProvider client={queryClient}>
-      <SaasProvider linkComponent={LinkComponent}>
+      <SuiProvider linkComponent={LinkComponent} value={defaultSystem}>
         <RouterProvider router={router} />
-      </SaasProvider>
+      </SuiProvider>
     </QueryClientProvider>
   );
 };

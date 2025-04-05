@@ -8,9 +8,8 @@ export const Route = createFileRoute("/_app/$workspace/")({
 
 function Home() {
   return (
-    <Center height="$100vh">
+    <Center height="100dvh">
       <EmptyState
-        variant="centered"
         title="Nothing here yet"
         description="Add routes and pages to get started"
       />
